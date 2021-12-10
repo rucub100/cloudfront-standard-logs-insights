@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/rucub100/cloudfront-standard-logs-insights/issues"
   },
-  "homepage": "https://github.com/rucub100/cloudfront-standard-logs-insights#readme"
+  "homepage": "https://github.com/rucub100/cloudfront-standard-logs-insights#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
