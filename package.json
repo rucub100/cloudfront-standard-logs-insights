@@ -1,0 +1,19 @@
+{
+  "name": "cloudfront-standard-logs-insights",
+  "version": "1.0.0",
+  "description": "Web application to get insights to CloudFront standard logs stored in S3",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rucub100/cloudfront-standard-logs-insights.git"
+  },
+  "author": "Ruslan Curbanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rucub100/cloudfront-standard-logs-insights/issues"
+  },
+  "homepage": "https://github.com/rucub100/cloudfront-standard-logs-insights#readme"
+}
