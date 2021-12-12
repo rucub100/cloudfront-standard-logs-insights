@@ -1,3 +1,4 @@
+const { join } = require('path');
 const express = require('express');
 
 const { LogsReader } = require('./src/LogsReader');
@@ -9,8 +10,8 @@ const logsReader = new LogsReader();
 
 app.use(express.static('dist'));
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, 'dist', 'index.html'));
 });
 
 logsReader.loadLogs().then(() => {
