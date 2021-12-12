@@ -10,6 +10,10 @@ const logsReader = new LogsReader();
 
 app.use(express.static('dist'));
 
+app.get('/api/overview', (req, res) => {
+    res.send(logsReader.getOverview());
+});
+
 app.get('*', (req, res) => {
     res.sendFile(join(__dirname, 'dist', 'index.html'));
 });
