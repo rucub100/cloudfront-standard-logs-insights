@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Web application to get insights to CloudFront standard logs stored in S3",
     "main": "app.js",
+    "private": true,
     "scripts": {
         "start": "node app.js",
         "dev": "nodemon app.js",
