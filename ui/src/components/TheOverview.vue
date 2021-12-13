@@ -36,7 +36,7 @@
                 <span class="fw-bold">{{ overview.timeTakenMs.avg }} ms</span>
             </div>
         </div>
-        <h4 class="mt-5">Edge Locations</h4>
+        <h4 class="mt-5 mb-3">Edge Locations</h4>
         <div class="row gap-1">
             <div
                 class="col-1 fw-bold"
@@ -46,7 +46,7 @@
                 {{ location }}
             </div>
         </div>
-        <h4 class="mt-5">
+        <h4 class="mt-5 mb-3">
             User Agents&nbsp;
             <a
                 class="btn btn-outline-dark"
@@ -68,8 +68,161 @@
                 {{ decodeURI(userAgent) }}
             </li>
         </ul>
-        <h4 class="mt-5">Collections</h4>
-        <h4 class="mt-5">Connection Information</h4>
+        <h4 class="mt-5 mb-3">Collections</h4>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="false"
+                        aria-controls="collapseOne"
+                    >
+                        Referers
+                    </button>
+                </h2>
+                <div
+                    id="collapseOne"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample"
+                >
+                    <div class="accordion-body">
+                        <ul class="list-group">
+                            <li
+                                class="list-group-item font-monospace text-break fs-6"
+                                v-for="referer in overview.referers"
+                                :key="referer"
+                            >
+                                {{ decodeURI(referer) }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="collapseTwo"
+                    >
+                        URI Paths
+                    </button>
+                </h2>
+                <div
+                    id="collapseTwo"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionExample"
+                >
+                    <div class="accordion-body">
+                        <ul class="list-group">
+                            <li
+                                class="list-group-item font-monospace text-break fs-6"
+                                v-for="path in overview.paths"
+                                :key="path"
+                            >
+                                {{ decodeURI(path) }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree"
+                        aria-expanded="false"
+                        aria-controls="collapseThree"
+                    >
+                        IP Addresses
+                    </button>
+                </h2>
+                <div
+                    id="collapseThree"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingThree"
+                    data-bs-parent="#accordionExample"
+                >
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div
+                                class="col-4 font-monospace"
+                                v-for="ip in new Set(
+                                    overview.Ips.concat(
+                                        overview.xForwardedFor.filter(
+                                            (ip) => ip.length > 6
+                                        )
+                                    )
+                                )"
+                                :key="ip"
+                            >
+                                {{ decodeURI(ip) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-5 mb-3">Connection Information</h4>
+        <div class="hstack gap-4 align-items-start">
+            <div>
+                <label class="d-block fw-light fs-5">HTTP Methods:</label>
+                <template v-for="method in overview.httpMethods">
+                    <span class="d-block fw-bold" :key="method">{{
+                        method
+                    }}</span>
+                </template>
+            </div>
+            <div>
+                <label class="d-block fw-light fs-5">Status Codes:</label>
+                <template v-for="code in overview.statusCodes">
+                    <span class="d-block fw-bold" :key="code">{{ code }}</span>
+                </template>
+            </div>
+            <div class="vr"></div>
+            <div>
+                <label class="d-block fw-light fs-5">Protocols:</label>
+                <template v-for="protocol in overview.protocols">
+                    <span class="d-block fw-bold" :key="protocol">{{
+                        protocol
+                    }}</span>
+                </template>
+            </div>
+            <div>
+                <label class="d-block fw-light fs-5">SSL Protocols:</label>
+                <template
+                    v-for="protocol in overview.sslProtocols.filter(
+                        (p) => p !== '-'
+                    )"
+                >
+                    <span class="d-block fw-bold" :key="protocol">{{
+                        protocol
+                    }}</span>
+                </template>
+            </div>
+            <div>
+                <label class="d-block fw-light fs-5">SSL Cipher:</label>
+                <template
+                    v-for="protocol in overview.sslCipher.filter(
+                        (p) => p !== '-'
+                    )"
+                >
+                    <span class="d-block fw-bold" :key="protocol">{{
+                        protocol
+                    }}</span>
+                </template>
+            </div>
+        </div>
     </div>
 </template>
 

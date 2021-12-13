@@ -25,6 +25,9 @@
         <div class="overview-container mt-4" v-else-if="tab === 'overview'">
             <the-overview></the-overview>
         </div>
+        <div class="pt-5"></div>
+        <hr class="mt-5 mb-1" />
+        <span class="d-block mb-1">&copy; 2021 Ruslan Curbanov</span>
     </div>
 </template>
 
