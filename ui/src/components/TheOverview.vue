@@ -2,35 +2,74 @@
     <div class="overview" v-if="overview">
         <div class="hstack gap-4">
             <div>
-                <label>Log date range:&nbsp;</label>
+                <label class="d-block fw-light fs-5">Log date range:</label>
                 <span class="fw-bold">{{ overview.dateRange.startDate }}</span>
                 to
                 <span class="fw-bold">{{ overview.dateRange.endDate }}</span>
             </div>
+            <div class="vr"></div>
             <div>
-                <label>#Requests:&nbsp;</label>
+                <label class="d-block fw-light fs-5">#Requests:</label>
                 <span class="fw-bold">{{ overview.numberOfRequests }}</span>
             </div>
             <div>
-                <label>#IPs:&nbsp;</label>
+                <label class="d-block fw-light fs-5">#IPs:</label>
                 <span class="fw-bold">{{ overview.numberOfIps }}</span>
             </div>
+            <div class="vr"></div>
             <div>
-                <label>#BytesIn:&nbsp;</label>
+                <label class="d-block fw-light fs-5">#BytesIn:</label>
                 <span class="fw-bold">{{ overview.numberOfBytesIn }}</span>
             </div>
             <div>
-                <label>#BytesOut:&nbsp;</label>
+                <label class="d-block fw-light fs-5">#BytesOut:</label>
                 <span class="fw-bold">{{ overview.numberOfBytesOut }}</span>
             </div>
+            <div class="vr"></div>
             <div>
-                <label>Time taken (min/max/median/avg):&nbsp;</label>
+                <label class="d-block fw-light fs-5"
+                    >Time taken (min/max/median/avg):</label
+                >
                 <span class="fw-bold">{{ overview.timeTakenMs.min }}/</span>
                 <span class="fw-bold">{{ overview.timeTakenMs.max }}/</span>
                 <span class="fw-bold">{{ overview.timeTakenMs.median }}/</span>
                 <span class="fw-bold">{{ overview.timeTakenMs.avg }} ms</span>
             </div>
         </div>
+        <h4 class="mt-5">Edge Locations</h4>
+        <div class="row gap-1">
+            <div
+                class="col-1 fw-bold"
+                v-for="location in overview.edgeLocations"
+                :key="location"
+            >
+                {{ location }}
+            </div>
+        </div>
+        <h4 class="mt-5">
+            User Agents&nbsp;
+            <a
+                class="btn btn-outline-dark"
+                data-bs-toggle="collapse"
+                href="#collapseUserAgents"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseUserAgents"
+            >
+                show/hide
+            </a>
+        </h4>
+        <ul id="collapseUserAgents" class="list-group collapse">
+            <li
+                class="list-group-item font-monospace text-break fs-6"
+                v-for="userAgent in overview.userAgents"
+                :key="userAgent"
+            >
+                {{ decodeURI(userAgent) }}
+            </li>
+        </ul>
+        <h4 class="mt-5">Collections</h4>
+        <h4 class="mt-5">Connection Information</h4>
     </div>
 </template>
 

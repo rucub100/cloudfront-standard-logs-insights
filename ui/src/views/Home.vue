@@ -1,6 +1,6 @@
 <template>
     <div class="container home">
-        <h1 class="mt-4 mb-3">CloudFront Standard Logs Insights</h1>
+        <h1 class="display-3 mt-4 mb-3">CloudFront Standard Logs Insights</h1>
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <router-link
