@@ -91,7 +91,7 @@ class LogsReader {
             numberOfRequests: rows.length,
             numberOfBytesIn: this._formatBytes(csBytes),
             numberOfBytesOut: this._formatBytes(scBytes),
-            Ips: Array.from(ipSet),
+            Ips: Array.from(ipSet).sort(),
             xForwardedFor: Array.from(xForwardedForSet),
             timeTakenMs: {
                 min: Math.round(timeTakenArray[0] * 1000),
