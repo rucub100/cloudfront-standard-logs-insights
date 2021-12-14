@@ -14,6 +14,10 @@ app.get('/api/overview', (req, res) => {
     res.send(logsReader.getOverview());
 });
 
+app.get('/api/data', (req, res) => {
+    res.send(logsReader.getData());
+});
+
 app.get('*', (req, res) => {
     res.sendFile(join(__dirname, 'dist', 'index.html'));
 });

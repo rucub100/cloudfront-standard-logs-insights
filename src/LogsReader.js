@@ -1,6 +1,6 @@
 const fs = require('fs/promises');
 
-const { LogFile } = require('./model/LogFile');
+const { LogFile, knownFields } = require('./model/LogFile');
 
 class LogsReader {
     constructor() {
@@ -29,6 +29,13 @@ class LogsReader {
                     await logFile.load();
                 }
             });
+    }
+
+    getData() {
+        return {
+            columns: knownFields,
+            rows: this.logFiles.flatMap((logFile) => logFile.log),
+        };
     }
 
     getOverview() {
