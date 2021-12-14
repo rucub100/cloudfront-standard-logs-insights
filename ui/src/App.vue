@@ -10,9 +10,10 @@ import { mapActions } from 'vuex';
 export default {
     beforeMount() {
         this.loadOverview();
+        this.loadData();
     },
     methods: {
-        ...mapActions(['loadOverview']),
+        ...mapActions(['loadOverview', 'loadData']),
     },
 };
 </script>
