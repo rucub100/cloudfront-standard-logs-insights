@@ -12,13 +12,26 @@
                 Selected columns
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li v-for="column in table.columns" :key="column">
-                    <button class="dropdown-item" type="button">
+                <li>
+                    <button
+                        class="dropdown-item"
+                        type="button"
+                        @click="deselectAllColumns"
+                    >
+                        <div class="form-check">Deselect all columns</div>
+                    </button>
+                </li>
+                <li v-for="column in allColumns" :key="column">
+                    <button
+                        class="dropdown-item"
+                        type="button"
+                        @click="toggleColumnSelection(column)"
+                    >
                         <div class="form-check">
                             <input
                                 class="form-check-input"
                                 type="checkbox"
-                                value=""
+                                :checked="columns.includes(column)"
                             />
                             <label class="form-check-label">
                                 {{ column }}
@@ -28,20 +41,17 @@
                 </li>
             </ul>
         </div>
-        <table class="table">
+        <table class="table" v-if="columns.length > 0">
             <thead>
                 <tr>
-                    <template v-for="column in table.columns.slice(0, 6)">
+                    <template v-for="column in columns">
                         <th scope="col" :key="column">{{ column }}</th>
                     </template>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="row in table.rows.slice(0, 100)" :key="row">
-                    <td
-                        v-for="column in table.columns.slice(0, 6)"
-                        :key="row[column]"
-                    >
+                <tr v-for="row in rows" :key="row.id">
+                    <td v-for="column in columns" :key="row.id + row[column]">
                         {{ row[column] }}
                     </td>
                 </tr>
@@ -53,8 +63,22 @@
 <script>
 export default {
     computed: {
-        table() {
-            return this.$store.state.rawData;
+        rows() {
+            return this.$store.state.table.rows;
+        },
+        columns() {
+            return this.$store.state.table.selectedColumns;
+        },
+        allColumns() {
+            return this.$store.state.rawData?.columns;
+        },
+    },
+    methods: {
+        toggleColumnSelection(column) {
+            this.$store.dispatch('toggleColumnSelection', column);
+        },
+        deselectAllColumns() {
+            this.$store.dispatch('deselectAllColumns');
         },
     },
 };
