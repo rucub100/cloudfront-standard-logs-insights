@@ -57,6 +57,70 @@
                 </tr>
             </tbody>
         </table>
+        <nav class="align-self-end" aria-label="Page navigation">
+            <ul class="pagination">
+                <li
+                    :class="['page-item', { disabled: page === 0 }]"
+                    @click="firstPage"
+                >
+                    <a class="page-link" aria-label="First">
+                        <span aria-hidden="true">&Lang;</span>
+                    </a>
+                </li>
+                <li :class="['page-item', { disabled: page === 0 }]">
+                    <a
+                        class="page-link"
+                        aria-label="Previous"
+                        @click="prevPage"
+                    >
+                        <span aria-hidden="true">&lang;</span>
+                    </a>
+                </li>
+                <li
+                    class="page-item"
+                    v-if="page === totalPages - 1"
+                    @click="toPage(page - 2)"
+                >
+                    <a class="page-link">{{ page - 1 }}</a>
+                </li>
+                <li class="page-item" v-if="page > 0" @click="toPage(page - 1)">
+                    <a class="page-link">{{ page }}</a>
+                </li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link">{{ page + 1 }}</a>
+                </li>
+                <li
+                    class="page-item"
+                    v-if="page + 1 < totalPages"
+                    @click="toPage(page + 1)"
+                >
+                    <a class="page-link">{{ page + 2 }}</a>
+                </li>
+                <li
+                    class="page-item"
+                    v-if="page === 0"
+                    @click="toPage(page + 2)"
+                >
+                    <a class="page-link">{{ page + 3 }}</a>
+                </li>
+                <li
+                    :class="['page-item', { disabled: page + 1 >= totalPages }]"
+                    @click="nextPage"
+                >
+                    <a class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&rang;</span>
+                    </a>
+                </li>
+                <li
+                    :class="['page-item', { disabled: page + 1 >= totalPages }]"
+                    @click="lastPage"
+                >
+                    <a class="page-link" aria-label="Last">
+                        <span aria-hidden="true">&Rang;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </template>
 
@@ -72,6 +136,14 @@ export default {
         allColumns() {
             return this.$store.state.rawData?.columns;
         },
+        page() {
+            return this.$store.state.table.page;
+        },
+        totalPages() {
+            const totalCount = this.$store.state.rawData.rows.length;
+            const pageSize = this.$store.state.table.size;
+            return Math.ceil(totalCount / pageSize);
+        },
     },
     methods: {
         toggleColumnSelection(column) {
@@ -80,13 +152,41 @@ export default {
         deselectAllColumns() {
             this.$store.dispatch('deselectAllColumns');
         },
+        firstPage() {
+            this.$store.dispatch('firstPage');
+        },
+        prevPage() {
+            this.$store.dispatch('prevPage');
+        },
+        nextPage() {
+            this.$store.dispatch('nextPage');
+        },
+        lastPage() {
+            this.$store.dispatch('lastPage');
+        },
+        toPage(page) {
+            this.$store.dispatch('toPage', page);
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+.table-container {
+    display: flex;
+    flex-direction: column;
+}
 .dropdown-menu {
     max-height: 20rem;
     overflow-y: auto;
+}
+
+.page-item {
+    cursor: pointer;
+    user-select: none;
+
+    &.disabled {
+        cursor: not-allowed;
+    }
 }
 </style>

@@ -23,7 +23,34 @@ export default new Vuex.Store({
             state.rawData = data;
         },
         setTablePage(state, page) {
-            state.table.page = page;
+            const totalCount = state.rawData.rows.length;
+            const pageSize = state.table.size;
+            const lastPage = Math.ceil(totalCount / pageSize) - 1;
+
+            if (page >= 0 && page <= lastPage) {
+                state.table.page = page;
+            }
+        },
+        incTablePage(state) {
+            const totalCount = state.rawData.rows.length;
+            const itemsLeft =
+                totalCount - (state.table.page + 1) * state.table.size;
+            if (itemsLeft > 0) {
+                state.table.page++;
+            }
+        },
+        decTablePage(state) {
+            if (state.table.page > 0) {
+                state.table.page--;
+            }
+        },
+        lastTablePage(state) {
+            const totalCount = state.rawData.rows.length;
+            const pageSize = state.table.size;
+            const lastPage = Math.ceil(totalCount / pageSize) - 1;
+            if (state.table.page != lastPage) {
+                state.table.page = lastPage;
+            }
         },
         setTableSize(state, size) {
             state.table.page = size;
@@ -90,6 +117,26 @@ export default new Vuex.Store({
         },
         deselectAllColumns(context) {
             context.commit('setSelectedColumns', []);
+            context.commit('calcTableRows');
+        },
+        firstPage(context) {
+            context.commit('setTablePage', 0);
+            context.commit('calcTableRows');
+        },
+        prevPage(context) {
+            context.commit('decTablePage');
+            context.commit('calcTableRows');
+        },
+        nextPage(context) {
+            context.commit('incTablePage');
+            context.commit('calcTableRows');
+        },
+        lastPage(context) {
+            context.commit('lastTablePage');
+            context.commit('calcTableRows');
+        },
+        toPage(context, page) {
+            context.commit('setTablePage', page);
             context.commit('calcTableRows');
         },
     },
