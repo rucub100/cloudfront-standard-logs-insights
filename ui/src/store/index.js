@@ -13,6 +13,7 @@ export default new Vuex.Store({
             selectedColumns: [],
             filters: [],
             rows: [],
+            totalRows: 0,
         },
     },
     mutations: {
@@ -23,16 +24,16 @@ export default new Vuex.Store({
             state.rawData = data;
         },
         setTablePage(state, page) {
-            const totalCount = state.rawData.rows.length;
+            const totalCount = state.table.totalRows;
             const pageSize = state.table.size;
-            const lastPage = Math.ceil(totalCount / pageSize) - 1;
+            const lastPage = Math.max(0, Math.ceil(totalCount / pageSize) - 1);
 
-            if (page >= 0 && page <= lastPage) {
+            if (page >= 0 && page <= lastPage && page !== state.table.page) {
                 state.table.page = page;
             }
         },
         incTablePage(state) {
-            const totalCount = state.rawData.rows.length;
+            const totalCount = state.table.totalRows;
             const itemsLeft =
                 totalCount - (state.table.page + 1) * state.table.size;
             if (itemsLeft > 0) {
@@ -45,9 +46,9 @@ export default new Vuex.Store({
             }
         },
         lastTablePage(state) {
-            const totalCount = state.rawData.rows.length;
+            const totalCount = state.table.totalRows;
             const pageSize = state.table.size;
-            const lastPage = Math.ceil(totalCount / pageSize) - 1;
+            const lastPage = Math.max(0, Math.ceil(totalCount / pageSize) - 1);
             if (state.table.page != lastPage) {
                 state.table.page = lastPage;
             }
@@ -74,11 +75,30 @@ export default new Vuex.Store({
             const size = state.table.size;
             const selectedColumns = state.table.selectedColumns;
             const rows = [];
+            const filters = state.table.filters;
+            const filteredRawDataRows = ((rawDataRows) => {
+                let filteredRawDataRows = rawDataRows;
+
+                const fields = new Set(filters.map((filter) => filter.field));
+
+                for (const field of fields) {
+                    const values = filters
+                        .filter((filter) => filter.field === field)
+                        .map((filter) => filter.value);
+                    filteredRawDataRows = filteredRawDataRows.filter((row) =>
+                        values.includes(row[field])
+                    );
+                }
+
+                return filteredRawDataRows;
+            })(state.rawData.rows);
+
+            state.table.totalRows = filteredRawDataRows.length;
 
             if (selectedColumns.length > 0) {
                 const indexFrom = page * size;
                 const indexTo = Math.min(
-                    state.rawData.rows.length,
+                    filteredRawDataRows.length,
                     (page + 1) * size
                 );
                 for (let i = indexFrom; i < indexTo; i++) {
@@ -87,7 +107,7 @@ export default new Vuex.Store({
                         ...selectedColumns
                             .map((column) => {
                                 return {
-                                    [column]: state.rawData.rows[i][column],
+                                    [column]: filteredRawDataRows[i][column],
                                 };
                             })
                             .reduce((previousValue, currentValue) => {
@@ -98,6 +118,9 @@ export default new Vuex.Store({
             }
 
             state.table.rows = rows;
+        },
+        setFilters(state, filters) {
+            state.table.filters = filters;
         },
     },
     actions: {
@@ -117,6 +140,7 @@ export default new Vuex.Store({
         },
         deselectAllColumns(context) {
             context.commit('setSelectedColumns', []);
+            context.commit('setTablePage', 0);
             context.commit('calcTableRows');
         },
         firstPage(context) {
@@ -137,6 +161,11 @@ export default new Vuex.Store({
         },
         toPage(context, page) {
             context.commit('setTablePage', page);
+            context.commit('calcTableRows');
+        },
+        updateFilters(context, filters) {
+            context.commit('setFilters', filters);
+            context.commit('setTablePage', 0);
             context.commit('calcTableRows');
         },
     },

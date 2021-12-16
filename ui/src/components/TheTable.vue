@@ -1,45 +1,122 @@
 <template>
     <div class="table-container">
-        <div class="dropdown">
-            <button
-                class="btn btn-secondary dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
-                aria-expanded="false"
-            >
-                Selected columns
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li>
-                    <button
-                        class="dropdown-item"
-                        type="button"
-                        @click="deselectAllColumns"
+        <div class="hstack gap-3 align-items-start">
+            <div class="dropdown">
+                <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside"
+                    aria-expanded="false"
+                >
+                    Selected columns
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="deselectAllColumns"
+                        >
+                            <div class="form-check">Deselect all columns</div>
+                        </button>
+                    </li>
+                    <li v-for="column in allColumns" :key="column">
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="toggleColumnSelection(column)"
+                        >
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    :checked="columns.includes(column)"
+                                />
+                                <label class="form-check-label">
+                                    {{ column }}
+                                </label>
+                            </div>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <the-filter></the-filter>
+            <nav class="ms-auto" aria-label="Page navigation">
+                <ul class="pagination">
+                    <li
+                        :class="['page-item', { disabled: page === 0 }]"
+                        @click="firstPage"
                     >
-                        <div class="form-check">Deselect all columns</div>
-                    </button>
-                </li>
-                <li v-for="column in allColumns" :key="column">
-                    <button
-                        class="dropdown-item"
-                        type="button"
-                        @click="toggleColumnSelection(column)"
+                        <a class="page-link" aria-label="First">
+                            <span aria-hidden="true">&Lang;</span>
+                        </a>
+                    </li>
+                    <li :class="['page-item', { disabled: page === 0 }]">
+                        <a
+                            class="page-link"
+                            aria-label="Previous"
+                            @click="prevPage"
+                        >
+                            <span aria-hidden="true">&lang;</span>
+                        </a>
+                    </li>
+                    <li
+                        class="page-item"
+                        v-if="page === totalPages - 1 && totalPages > 2"
+                        @click="toPage(page - 2)"
                     >
-                        <div class="form-check">
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                :checked="columns.includes(column)"
-                            />
-                            <label class="form-check-label">
-                                {{ column }}
-                            </label>
-                        </div>
-                    </button>
-                </li>
-            </ul>
+                        <a class="page-link">{{ page - 1 }}</a>
+                    </li>
+                    <li
+                        class="page-item"
+                        v-if="page > 0"
+                        @click="toPage(page - 1)"
+                    >
+                        <a class="page-link">{{ page }}</a>
+                    </li>
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link">{{ page + 1 }}</a>
+                    </li>
+                    <li
+                        class="page-item"
+                        v-if="page + 1 < totalPages"
+                        @click="toPage(page + 1)"
+                    >
+                        <a class="page-link">{{ page + 2 }}</a>
+                    </li>
+                    <li
+                        class="page-item"
+                        v-if="page === 0 && page + 2 < totalPages"
+                        @click="toPage(page + 2)"
+                    >
+                        <a class="page-link">{{ page + 3 }}</a>
+                    </li>
+                    <li
+                        :class="[
+                            'page-item',
+                            { disabled: page + 1 >= totalPages },
+                        ]"
+                        @click="nextPage"
+                    >
+                        <a class="page-link" aria-label="Next">
+                            <span aria-hidden="true">&rang;</span>
+                        </a>
+                    </li>
+                    <li
+                        :class="[
+                            'page-item',
+                            { disabled: page + 1 >= totalPages },
+                        ]"
+                        @click="lastPage"
+                    >
+                        <a class="page-link" aria-label="Last">
+                            <span aria-hidden="true">&Rang;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <table class="table" v-if="columns.length > 0">
             <thead>
@@ -57,75 +134,16 @@
                 </tr>
             </tbody>
         </table>
-        <nav class="align-self-end" aria-label="Page navigation">
-            <ul class="pagination">
-                <li
-                    :class="['page-item', { disabled: page === 0 }]"
-                    @click="firstPage"
-                >
-                    <a class="page-link" aria-label="First">
-                        <span aria-hidden="true">&Lang;</span>
-                    </a>
-                </li>
-                <li :class="['page-item', { disabled: page === 0 }]">
-                    <a
-                        class="page-link"
-                        aria-label="Previous"
-                        @click="prevPage"
-                    >
-                        <span aria-hidden="true">&lang;</span>
-                    </a>
-                </li>
-                <li
-                    class="page-item"
-                    v-if="page === totalPages - 1"
-                    @click="toPage(page - 2)"
-                >
-                    <a class="page-link">{{ page - 1 }}</a>
-                </li>
-                <li class="page-item" v-if="page > 0" @click="toPage(page - 1)">
-                    <a class="page-link">{{ page }}</a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link">{{ page + 1 }}</a>
-                </li>
-                <li
-                    class="page-item"
-                    v-if="page + 1 < totalPages"
-                    @click="toPage(page + 1)"
-                >
-                    <a class="page-link">{{ page + 2 }}</a>
-                </li>
-                <li
-                    class="page-item"
-                    v-if="page === 0"
-                    @click="toPage(page + 2)"
-                >
-                    <a class="page-link">{{ page + 3 }}</a>
-                </li>
-                <li
-                    :class="['page-item', { disabled: page + 1 >= totalPages }]"
-                    @click="nextPage"
-                >
-                    <a class="page-link" aria-label="Next">
-                        <span aria-hidden="true">&rang;</span>
-                    </a>
-                </li>
-                <li
-                    :class="['page-item', { disabled: page + 1 >= totalPages }]"
-                    @click="lastPage"
-                >
-                    <a class="page-link" aria-label="Last">
-                        <span aria-hidden="true">&Rang;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </template>
 
 <script>
+import TheFilter from '@/components/TheFilter.vue';
+
 export default {
+    components: {
+        TheFilter,
+    },
     computed: {
         rows() {
             return this.$store.state.table.rows;
@@ -140,7 +158,7 @@ export default {
             return this.$store.state.table.page;
         },
         totalPages() {
-            const totalCount = this.$store.state.rawData.rows.length;
+            const totalCount = this.$store.state.table.totalRows;
             const pageSize = this.$store.state.table.size;
             return Math.ceil(totalCount / pageSize);
         },
