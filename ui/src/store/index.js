@@ -85,8 +85,10 @@ export default new Vuex.Store({
                     const values = filters
                         .filter((filter) => filter.field === field)
                         .map((filter) => filter.value);
-                    filteredRawDataRows = filteredRawDataRows.filter((row) =>
-                        values.includes(row[field])
+                    filteredRawDataRows = filteredRawDataRows.filter(
+                        (row) =>
+                            values.includes(row[field]) ||
+                            values.includes(decodeURI(row[field]))
                     );
                 }
 

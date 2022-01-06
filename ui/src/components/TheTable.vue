@@ -129,7 +129,7 @@
             <tbody>
                 <tr v-for="row in rows" :key="row.id">
                     <td v-for="column in columns" :key="row.id + row[column]">
-                        {{ row[column] }}
+                        {{ decodeURI(row[column]) }}
                     </td>
                 </tr>
             </tbody>

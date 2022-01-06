@@ -123,7 +123,7 @@ export default {
     },
     computed: {
         columns() {
-            return this.$store.state.table.selectedColumns;
+            return this.$store.state.rawData?.columns;
         },
     },
     methods: {
