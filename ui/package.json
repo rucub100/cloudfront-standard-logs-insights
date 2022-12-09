@@ -1,37 +1,39 @@
 {
-    "name": "cloudfront-standard-logs-insights",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build",
-        "build:watch": "vue-cli-service build --watch",
-        "lint": "vue-cli-service lint"
-    },
-    "dependencies": {
-        "@popperjs/core": "^2.11.2",
-        "bootstrap": "^5.1.3",
-        "core-js": "^3.20.2",
-        "register-service-worker": "^1.7.1",
-        "vue": "^2.6.11",
-        "vue-router": "^3.2.0",
-        "vuex": "^3.4.0"
-    },
-    "devDependencies": {
-        "@vue/cli-plugin-babel": "~4.5.0",
-        "@vue/cli-plugin-eslint": "~4.5.0",
-        "@vue/cli-plugin-pwa": "~4.5.0",
-        "@vue/cli-plugin-router": "~4.5.0",
-        "@vue/cli-plugin-vuex": "~4.5.0",
-        "@vue/cli-service": "~4.5.0",
-        "@vue/eslint-config-prettier": "^6.0.0",
-        "babel-eslint": "^10.1.0",
-        "eslint": "^6.7.2",
-        "eslint-plugin-prettier": "^3.3.1",
-        "eslint-plugin-vue": "^6.2.2",
-        "prettier": "^2.2.1",
-        "sass": "^1.46.0",
-        "sass-loader": "^8.0.2",
-        "vue-template-compiler": "^2.6.11"
-    }
+  "name": "cloudfront-standard-logs-insights",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build:watch": "vue-cli-service build --watch",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.2",
+    "bootstrap": "^5.1.3",
+    "core-js": "^3.20.2",
+    "register-service-worker": "^1.7.1",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.8",
+    "@vue/cli-plugin-eslint": "~5.0.8",
+    "@vue/cli-plugin-pwa": "~5.0.8",
+    "@vue/cli-plugin-router": "~5.0.8",
+    "@vue/cli-plugin-vuex": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "prettier": "^2.4.1",
+    "sass": "^1.46.0",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  }
 }

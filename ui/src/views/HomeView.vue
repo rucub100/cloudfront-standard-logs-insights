@@ -37,7 +37,7 @@ import TheOverview from '@/components/TheOverview.vue';
 import TheTable from '@/components/TheTable.vue';
 
 export default {
-    name: 'Home',
+    name: 'HomeView',
     components: {
         TheOverview,
         TheTable,
