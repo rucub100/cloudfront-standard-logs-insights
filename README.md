@@ -22,7 +22,7 @@ Empower yourself and get insights from otherwise boring text-based logs.
 
 ## Prerequisites
 
--   Nodejs
+-   NodeJS
 -   CloudFront Distribution with Standard Logs stored in S3
 -   AWS Account & AWS CLI
 
@@ -31,8 +31,7 @@ Empower yourself and get insights from otherwise boring text-based logs.
 1. Build the ui via
     ```bash
     cd ui
-    npm install
-    npm run build
+    yarn && yarn build
     ```
 2. Build the expressjs server app:
     ```
@@ -42,7 +41,7 @@ Empower yourself and get insights from otherwise boring text-based logs.
 
 ## Sync the logs from an S3 bucket
 
-Use the `sync.sh` script or the AWS CLI to copy the log files from S3 into a `.logs` folder.
+Use the `sync.sh logs.example.com` script or the AWS CLI to copy the log files from S3 into a `.logs` folder.
 
 ## Development
 
