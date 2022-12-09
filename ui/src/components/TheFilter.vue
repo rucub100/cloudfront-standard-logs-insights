@@ -1,5 +1,5 @@
 <template>
-    <div class="filters">
+    <div class="filters" v-if="columns">
         <!-- Button trigger modal -->
         <button
             type="button"
@@ -13,6 +13,7 @@
 
         <!-- Modal -->
         <div
+            v-if="filters"
             class="modal fade"
             id="filtersModal"
             tabindex="-1"
@@ -117,9 +118,11 @@ export default {
     },
     mounted() {
         const filtersModal = document.getElementById('filtersModal');
-        filtersModal.addEventListener('hidden.bs.modal', () => {
-            this.filters = [...this.$store.state.table.filters];
-        });
+        if (filtersModal) {
+            filtersModal.addEventListener('hidden.bs.modal', () => {
+                this.filters = [...this.$store.state.table.filters];
+            });
+        }
     },
     computed: {
         columns() {

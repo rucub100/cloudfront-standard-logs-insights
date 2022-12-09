@@ -32,15 +32,17 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import TheOverview from '@/components/TheOverview.vue';
-import TheTable from '@/components/TheTable.vue';
+import { defineAsyncComponent } from 'vue';
 
 export default {
     name: 'HomeView',
     components: {
-        TheOverview,
-        TheTable,
+        TheOverview: defineAsyncComponent(() =>
+            import('@/components/TheOverview.vue')
+        ),
+        TheTable: defineAsyncComponent(() =>
+            import('@/components/TheTable.vue')
+        ),
     },
     computed: {
         tab() {

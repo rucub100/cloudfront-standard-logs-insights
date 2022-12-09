@@ -121,9 +121,9 @@
         <table class="table" v-if="columns.length > 0">
             <thead>
                 <tr>
-                    <template v-for="column in columns">
-                        <th scope="col" :key="column">{{ column }}</th>
-                    </template>
+                    <th scope="col" v-for="column in columns" :key="column">
+                        {{ column }}
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -138,11 +138,13 @@
 </template>
 
 <script>
-import TheFilter from '@/components/TheFilter.vue';
+import { defineAsyncComponent } from 'vue';
 
 export default {
     components: {
-        TheFilter,
+        TheFilter: defineAsyncComponent(() =>
+            import('@/components/TheFilter.vue')
+        ),
     },
     computed: {
         rows() {

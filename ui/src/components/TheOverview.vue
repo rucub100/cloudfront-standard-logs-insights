@@ -177,50 +177,57 @@
         <div class="hstack gap-4 align-items-start">
             <div>
                 <label class="d-block fw-light fs-5">HTTP Methods:</label>
-                <template v-for="method in overview.httpMethods">
-                    <span class="d-block fw-bold" :key="method">{{
-                        method
-                    }}</span>
-                </template>
+                <span
+                    v-for="method in overview.httpMethods"
+                    :key="method"
+                    class="d-block fw-bold"
+                    >{{ method }}</span
+                >
             </div>
             <div>
                 <label class="d-block fw-light fs-5">Status Codes:</label>
-                <template v-for="code in overview.statusCodes">
-                    <span class="d-block fw-bold" :key="code">{{ code }}</span>
-                </template>
+                <span
+                    v-for="code in overview.statusCodes"
+                    :key="code"
+                    class="d-block fw-bold"
+                    >{{ code }}</span
+                >
             </div>
             <div class="vr"></div>
             <div>
                 <label class="d-block fw-light fs-5">Protocols:</label>
-                <template v-for="protocol in overview.protocols">
-                    <span class="d-block fw-bold" :key="protocol">{{
-                        protocol
-                    }}</span>
-                </template>
+                <span
+                    v-for="protocol in overview.protocols"
+                    :key="protocol"
+                    class="d-block fw-bold"
+                    >{{ protocol }}</span
+                >
             </div>
             <div>
                 <label class="d-block fw-light fs-5">SSL Protocols:</label>
-                <template
+
+                >
+                <span
                     v-for="protocol in overview.sslProtocols.filter(
                         (p) => p !== '-'
                     )"
+                    :key="protocol"
+                    class="d-block fw-bold"
+                    >{{ protocol }}</span
                 >
-                    <span class="d-block fw-bold" :key="protocol">{{
-                        protocol
-                    }}</span>
-                </template>
             </div>
             <div>
                 <label class="d-block fw-light fs-5">SSL Cipher:</label>
-                <template
+
+                >
+                <span
                     v-for="protocol in overview.sslCipher.filter(
                         (p) => p !== '-'
                     )"
+                    :key="protocol"
+                    class="d-block fw-bold"
+                    >{{ protocol }}</span
                 >
-                    <span class="d-block fw-bold" :key="protocol">{{
-                        protocol
-                    }}</span>
-                </template>
             </div>
         </div>
     </div>
